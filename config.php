@@ -2,13 +2,40 @@
 // Central database and session settings for Stock-Alert.
 declare(strict_types=1);
 
-$DB_HOST = getenv('STOCK_DB_HOST') ?: '127.0.0.1';
-$DB_NAME = getenv('STOCK_DB_NAME') ?: 'stock_alert';
-$DB_USER = getenv('STOCK_DB_USER') ?: 'root';
+$DB_HOST = getenv('STOCK_DB_HOST') ?: 'sql310.infinityfree.com';
+
+$DB_NAME = getenv('STOCK_DB_NAME') ?: 'if0_43363220_stock_alert';
+
+$DB_USER = getenv('STOCK_DB_USER') ?: 'if0_43363220';
+
 $DB_PASS = getenv('STOCK_DB_PASS') !== false
     ? getenv('STOCK_DB_PASS')
     : '';
     
+
+
+    try {
+
+    $pdo = new PDO(
+        "mysql:host={$DB_HOST};dbname={$DB_NAME};charset=utf8mb4",
+        $DB_USER,
+        $DB_PASS,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false
+        ]
+    );
+
+} catch (PDOException $e) {
+
+    error_log("Stock-Alert Database Error: " . $e->getMessage());
+
+    die("Database connection failed. Please check your database configuration.");
+
+}
+
+
 // Use secure cookie settings when the site is opened over HTTPS.
 $https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 session_set_cookie_params([
