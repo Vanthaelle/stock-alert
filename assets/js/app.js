@@ -3,7 +3,7 @@ const token=$('meta[name="csrf-token"]')?.content||'';
 async function api(url,options={}){const headers={...options.headers};if(options.body)headers['Content-Type']='application/json';if(options.method&&options.method!=='GET')headers['X-CSRF-Token']=token;const res=await fetch(url,{...options,headers});let body;try{body=await res.json()}catch{throw new Error('The server returned an unreadable response.')}if(!res.ok||!body.ok)throw new Error(body.error?.message||'Request failed');return body.data;}
 function toast(msg,error=false){const el=$('#toast');if(!el)return;el.textContent=msg;el.className='toast show'+(error?' error':'');}
 const fmt=n=>{const value=Number(n??0);return(Number.isFinite(value)?value:0).toLocaleString();};
-const money=n=>'₱'+Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+const money=n=>'₱'+(Number.isFinite(Number(n))?Number(n):0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function status(q,r){return Number(q)===0?['out','Out of stock']:Number(q)<Number(r)?['low','Low stock']:['healthy','Healthy'];}
 let warehouseChart;
