@@ -27,7 +27,7 @@ $('#scanBtn')?.addEventListener('click',async()=>{try{await api('api/alerts.php'
 $('#exportBtn')?.addEventListener('click',()=>{
     const rows = window.inventoryData || [];
     const cols = ['sku','name','supplier','unit','unit_cost','available_qty','reorder_level','reorder_qty'];
-    const headers = ['SKU','Item Name','Supplier','Unit','Unit Cost','Available Quantity','Reorder Level','Reorder Quantity','Stock Status'];
+    const headers = ['SKU','Item Name','Supplier','Available Quantity','Reorder Level','Stock Status'];
 
     const safe = value => {
         let text = String(value ?? '');
