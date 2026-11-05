@@ -31,7 +31,7 @@ $('#exportBtn')?.addEventListener('click',()=>{
 
     const safe = value => {
         let text = String(value ?? '');
-        if (/^[=+\-@\t\r]/.test(text)) text = "'" + text;
+        if (/^[\s\u0000-\u001F]*[=+\-@]/.test(text)) text = "'" + text;
         return '"' + text.replaceAll('"','""') + '"';
     };
 
