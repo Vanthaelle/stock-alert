@@ -2,11 +2,13 @@
 // Central database and session settings for Stock-Alert.
 declare(strict_types=1);
 
-$DB_HOST = '127.0.0.1';
-$DB_NAME = 'stock_alert';
-$DB_USER = 'root';
-$DB_PASS = ''; // Default XAMPP MySQL password is blank.
-
+$DB_HOST = getenv('STOCK_DB_HOST') ?: '127.0.0.1';
+$DB_NAME = getenv('STOCK_DB_NAME') ?: 'stock_alert';
+$DB_USER = getenv('STOCK_DB_USER') ?: 'root';
+$DB_PASS = getenv('STOCK_DB_PASS') !== false
+    ? getenv('STOCK_DB_PASS')
+    : '';
+    
 // Use secure cookie settings when the site is opened over HTTPS.
 $https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 session_set_cookie_params([
