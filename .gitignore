@@ -1,4 +1,39 @@
-/logs/*.log
+# Environment variables and local secrets
 .env
-.DS_Store
+.env.*
+!.env.example
+config.local.php
+config.production.php
+
+# Logs
+*.log
+/logs/
+/storage/logs/
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# Runtime and generated files
+/storage/cache/
+/storage/sessions/
+/coverage/
+/.phpunit.cache/
+
+# Local database backups
+*.sql.gz
+*.bak
+*.tmp
+*.old
+
+# Archive files
 *.zip
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE and editor settings
+.vscode/
+.idea/
