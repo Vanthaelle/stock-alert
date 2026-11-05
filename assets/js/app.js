@@ -26,7 +26,7 @@ $('#tableSearch')?.addEventListener('input',renderInventory);$('#severityFilter'
 $('#scanBtn')?.addEventListener('click',async()=>{try{await api('api/alerts.php',{method:'POST',body:JSON.stringify({action:'scan'})});await dashboard();toast('Inventory scan completed. Alerts are up to date.')}catch(e){toast(e.message,true)}});
 $('#exportBtn')?.addEventListener('click',()=>{
     const rows = window.inventoryData || [];
-    const cols = ['sku','name','supplier','unit','unit_cost','available_qty','reorder_level','reorder_qty','stock_status'];
+    const cols = ['sku','name','supplier','unit','unit_cost','available_qty','reorder_level','reorder_qty'];
     const headers = ['SKU','Item Name','Supplier','Unit','Unit Cost','Available Quantity','Reorder Level','Reorder Quantity','Stock Status'];
 
     const safe = value => {
@@ -38,10 +38,10 @@ $('#exportBtn')?.addEventListener('click',()=>{
     const csv = [
         headers.map(safe).join(','),
         ...rows.map(item => {
-            const status = Number(item.available_qty) <= Number(item.reorder_level) ? 'Low Stock' : 'In Stock';
+            const [, statusLabel] = status(item.available_qty, item.reorder_level);
             return [
-                ...cols.slice(0,9).map(column => item[column]),
-                status
+                ...cols.map(column => item[column]),
+                statusLabel
             ].map(safe).join(',');
         })
     ].join('\r\n');
