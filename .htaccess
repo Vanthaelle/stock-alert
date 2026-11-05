@@ -1,5 +1,6 @@
 Options -Indexes
 
-<FilesMatch "^(database\.sql|README\.md)$">
+# Block direct access to sensitive project files.
+<FilesMatch "^(config\.php|database\.sql|README\.md|DEVLOG\.md|\.gitignore)$">
     Require all denied
 </FilesMatch>
